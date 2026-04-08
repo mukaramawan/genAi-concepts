@@ -1,0 +1,3 @@
+[submodule "DocChat-RAG"]
+	path = DocChat-RAG
+	url = https://github.com/mukaramawan/DocChat-RAG.git
