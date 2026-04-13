@@ -6,6 +6,7 @@ from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
 from langchain_mistralai import ChatMistralAI
 from tavily import TavilyClient
 from langchain.agents import create_agent
+from langchain.agents.middleware import wrap_tool_call
 from rich import print
 
 load_dotenv()
@@ -105,9 +106,22 @@ llm = ChatMistralAI(model="mistral-large-latest")
 
 # The followig code is a simplified version of the above code using the create_agent from langchain which provides high level abstractions and automates everthinng including the tool calling and message management.
 
+@wrap_tool_call
+def human_approval(request, handler):
+    tool_name = request.tool_call['name']
+    approval = input(f"Agent wants to call {tool_name}, Approve? (y/n): ").lower()
+    
+    if approval != 'y':
+        print("Tool call rejected.")
+        return ToolMessage(content="User rejected tool call.", tool_call_id=request.tool_call['id'])
+    
+    return handler(request)
+
+
 agent = create_agent(model=llm,
                      tools=[get_news, get_current_weather], 
-                     system_prompt="You are a helpful assistant. Be concise and accurate."
+                     system_prompt="You are a helpful assistant. Be concise and accurate.",
+                     middleware=[human_approval]
 )
 
 print("Type 'exit' to quit.")
