@@ -1,6 +1,6 @@
 [submodule "DocChat-RAG"]
-	path = DocChat-RAG
+	path = 4- DocChat-RAG
 	url = https://github.com/mukaramawan/DocChat-RAG.git
 [submodule "research-mind"]
-	path = research-mind
+	path = 8- research-mind
 	url = https://github.com/mukaramawan/research-mind.git
