@@ -15,3 +15,4 @@ streamlit
 langchain_openrouter
 langchain-tavily
 tavily-python
+langgraph
